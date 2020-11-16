@@ -17,12 +17,15 @@ public class Enemy : MonoBehaviour
     public GameObject bullet;
 
     public Transform spawn;
+
+    public AudioSource shotSound;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         shootingTimer = Random.Range(0, shootingInterval);
         spawn = gameObject.GetComponent<Transform>().GetChild(0);
+        shotSound = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -33,7 +36,12 @@ public class Enemy : MonoBehaviour
             shootingTimer = shootingInterval;
             GameObject currentBullet = Instantiate (bullet, spawn.position, spawn.rotation);
             currentBullet.transform.forward = (player.transform.position - spawn.position).normalized;
+            shotSound.Play();
             print("shooting");
         }
+    }
+
+    public void gotShot() {
+        health--;
     }
 }

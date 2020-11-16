@@ -24,12 +24,12 @@ public class BulletScript : MonoBehaviour {
 
 		if(Physics.Raycast(transform.position, transform.forward,out hit, maxDistance, ~ignoreLayer)){
 			if(decalHitWall){
-				if(hit.transform.tag == "LevelPart"){
-					Instantiate(decalHitWall, hit.point + hit.normal * floatInfrontOfWall, Quaternion.LookRotation(hit.normal));
-					Destroy(gameObject);
-				}
 				if(hit.transform.tag == "Dummie"){
 					Instantiate(bloodEffect, hit.point, Quaternion.LookRotation(hit.normal));
+					if (hit.transform.gameObject.GetComponent<Enemy>() != null) {
+						Enemy enemy = hit.transform.gameObject.GetComponent<Enemy>();
+						enemy.gotShot();
+					}
 					Destroy(gameObject);
 				}
 			}		

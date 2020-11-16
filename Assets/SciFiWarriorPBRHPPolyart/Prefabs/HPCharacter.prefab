@@ -2134,7 +2134,7 @@ GameObject:
   - component: {fileID: 4089698079304227897}
   m_Layer: 0
   m_Name: HPCharacter
-  m_TagString: Untagged
+  m_TagString: Dummie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2198,7 +2198,9 @@ MonoBehaviour:
   shootingDistance: 100
   player: {fileID: 0}
   bullet: {fileID: 7817920876813486676, guid: 17b566b24ff3a3f4ca191807383d7eba, type: 3}
-  shootingArm: {fileID: 0}
+  spawn: {fileID: 0}
+  shotSound: {fileID: 0}
+  hitSound: {fileID: 0}
 --- !u!65 &8673804841507873209
 BoxCollider:
   m_ObjectHideFlags: 0

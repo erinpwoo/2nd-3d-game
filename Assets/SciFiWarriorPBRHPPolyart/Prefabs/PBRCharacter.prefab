@@ -2681,8 +2681,12 @@ MonoBehaviour:
   shootingInterval: 4
   health: 5
   damage: 5
+  shootingDistance: 100
   player: {fileID: 0}
-  bullet: {fileID: 128836, guid: c9e619a669d974fd28b5c89e43f2bce2, type: 3}
+  bullet: {fileID: 7817920876813486676, guid: 17b566b24ff3a3f4ca191807383d7eba, type: 3}
+  spawn: {fileID: 0}
+  shotSound: {fileID: 0}
+  hitSound: {fileID: 0}
 --- !u!64 &1684977665485202661
 MeshCollider:
   m_ObjectHideFlags: 0
