@@ -6,8 +6,12 @@ public class Player : MonoBehaviour
 {
     [Header("Gameplay")]
     public int initialHealth = 100;
-    private int health;
-    public int Health { get { return health; }}
+    public int health;
+
+    private bool isHurt;
+    public float knockBackForce = 10f;
+
+    public float hurtDuration = .5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,5 +22,26 @@ public class Player : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.GetComponent<Enemy>() != null) {
+            if (isHurt == false) {
+                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+                health -= enemy.damage;
+                isHurt = true;
+
+                Vector3 hurtDirection = (transform.position - enemy.transform.position).normalized;
+                Vector3 knockBackDirection = (hurtDirection + hurtDirection + Vector3.up).normalized;
+                GetComponent<Rigidbody>().AddForce(knockBackDirection * knockBackForce);
+
+                StartCoroutine(HurtTime());
+            }
+        }
+    }
+
+    IEnumerator HurtTime() {
+        yield return new WaitForSeconds(hurtDuration);
+        isHurt = false;
     }
 }

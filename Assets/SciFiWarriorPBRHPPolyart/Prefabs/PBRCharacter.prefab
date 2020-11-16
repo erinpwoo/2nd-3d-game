@@ -2616,6 +2616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2836004475591197023}
   - component: {fileID: 2836004473841745626}
+  - component: {fileID: 3891407114937345028}
   - component: {fileID: 1684977665485202661}
   - component: {fileID: -1572734745878426013}
   m_Layer: 0
@@ -2665,6 +2666,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3891407114937345028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2836004475591695743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9295110b757638b4f88bb3a680d5b30a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingInterval: 4
+  health: 5
+  damage: 5
+  player: {fileID: 0}
+  bullet: {fileID: 128836, guid: c9e619a669d974fd28b5c89e43f2bce2, type: 3}
 --- !u!64 &1684977665485202661
 MeshCollider:
   m_ObjectHideFlags: 0

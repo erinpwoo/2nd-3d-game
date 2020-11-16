@@ -34,6 +34,8 @@ public class GunScript : MonoBehaviour {
 
 	public Player playerScript;
 
+	public TextMesh HUD_health;
+
 	/*
 	 * Collection the variables upon awake that we need.
 	 */
@@ -50,7 +52,8 @@ public class GunScript : MonoBehaviour {
 		bulletSpawnPlace = GameObject.FindGameObjectWithTag("BulletSpawn");
 		hitMarker = transform.Find ("hitMarkerSound").GetComponent<AudioSource> ();
 
-		playerScript = gameObject.GetComponent<Player>();
+		playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+		HUD_health = GameObject.Find("HUD_health").GetComponent<TextMesh>();
 
 		startLook = mouseSensitvity_notAiming;
 		startAim = mouseSensitvity_aiming;
@@ -85,7 +88,8 @@ public class GunScript : MonoBehaviour {
 	Update loop calling for methods that are descriped below where they are initiated.
 	*/
 	void Update(){
-
+		
+		HUD_health.text = "Health: " + playerScript.health.ToString();
 		Animations();
 
 		GiveCameraScriptMySensitvity();
@@ -99,8 +103,6 @@ public class GunScript : MonoBehaviour {
 		Sprint(); //iff we have the gun you sprint from here, if we are gunless then its called from movement script
 
 		CrossHairExpansionWhenWalking();
-
-
 	}
 
 	/*
@@ -517,7 +519,6 @@ public class GunScript : MonoBehaviour {
 	 */
 	[Tooltip("HUD bullets to display bullet count on screen. Will be find under name 'HUD_bullets' in scene.")]
 	public TextMesh HUD_bullets;
-	public TextMesh HUD_health;
 	void OnGUI(){
 		if(!HUD_bullets || !HUD_health){
 			try{
@@ -530,7 +531,7 @@ public class GunScript : MonoBehaviour {
 		}
 		if(mls && HUD_bullets)
 			HUD_bullets.text = "Ammo: " + bulletsInTheGun.ToString();
-			HUD_health.text = "Health: " + playerScript.Health;
+			HUD_health.text = "Health: " + playerScript.health.ToString();
 
 		DrawCrosshair();
 	}
