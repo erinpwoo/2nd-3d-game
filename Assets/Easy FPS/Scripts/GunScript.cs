@@ -32,6 +32,8 @@ public class GunScript : MonoBehaviour {
 
 	private PlayerMovementScript pmS;
 
+	public Player playerScript;
+
 	/*
 	 * Collection the variables upon awake that we need.
 	 */
@@ -47,6 +49,8 @@ public class GunScript : MonoBehaviour {
 
 		bulletSpawnPlace = GameObject.FindGameObjectWithTag("BulletSpawn");
 		hitMarker = transform.Find ("hitMarkerSound").GetComponent<AudioSource> ();
+
+		playerScript = gameObject.GetComponent<Player>();
 
 		startLook = mouseSensitvity_notAiming;
 		startAim = mouseSensitvity_aiming;
@@ -513,17 +517,20 @@ public class GunScript : MonoBehaviour {
 	 */
 	[Tooltip("HUD bullets to display bullet count on screen. Will be find under name 'HUD_bullets' in scene.")]
 	public TextMesh HUD_bullets;
+	public TextMesh HUD_health;
 	void OnGUI(){
-		if(!HUD_bullets){
+		if(!HUD_bullets || !HUD_health){
 			try{
 				HUD_bullets = GameObject.Find("HUD_bullets").GetComponent<TextMesh>();
+				HUD_health = GameObject.Find("HUD_health").GetComponent<TextMesh>();
 			}
 			catch(System.Exception ex){
-				print("Couldnt find the HUD_Bullets ->" + ex.StackTrace.ToString());
+				print("Couldnt find the HUD_Bullets or HUD_health ->" + ex.StackTrace.ToString());
 			}
 		}
 		if(mls && HUD_bullets)
-			HUD_bullets.text = bulletsIHave.ToString() + " - " + bulletsInTheGun.ToString();
+			HUD_bullets.text = "Ammo: " + bulletsInTheGun.ToString();
+			HUD_health.text = "Health: " + playerScript.Health;
 
 		DrawCrosshair();
 	}
