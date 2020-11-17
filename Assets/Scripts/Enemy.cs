@@ -70,6 +70,9 @@ public class Enemy : MonoBehaviour
                 animator.SetBool("isChasing", false);
             }
         }
+        if (player.GetComponent<Player>().isGameOver) {
+            gameObject.SetActive(false);
+        }
     }
 
     public void gotShot() {

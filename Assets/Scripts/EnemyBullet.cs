@@ -28,6 +28,10 @@ public class EnemyBullet : MonoBehaviour
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Player")) {
             collision.gameObject.GetComponent<Player>().health -= 5;
+            if (collision.gameObject.GetComponent<Player>().health <= 0) {
+                CancelInvoke();
+                collision.gameObject.GetComponent<Player>().GameOver();
+            }
         }
     }
 }
