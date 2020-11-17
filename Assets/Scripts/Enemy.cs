@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
     public float chaseInterval = 2f;
 
     public Animator animator;
+    bool justDied;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,41 +38,46 @@ public class Enemy : MonoBehaviour
         agent.SetDestination(player.transform.position);
         agent.speed = 2f;
         animator = GetComponent<Animator>();
+        justDied = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // shooting logic
-        shootingTimer -= Time.deltaTime;
-        if (shootingTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= shootingDistance)) {
-            shootingTimer = shootingInterval;
-            animator.SetBool("isShooting", true);
-            GameObject currentBullet = Instantiate (bullet, spawn.position, spawn.rotation);
-            currentBullet.transform.forward = (player.transform.position - spawn.position).normalized;
-            shotSound.Play();
-        } else {
-            animator.SetBool("isShooting", false);
-        }
-        // chasing logic
-        chaseTimer -= Time.deltaTime;
-        if (chaseTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= 5f)) {
-            chaseTimer = chaseInterval;
-            agent.SetDestination(player.transform.position);
-        }
+        if (!justDied) {
+            // shooting logic
+            shootingTimer -= Time.deltaTime;
+            if (shootingTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= shootingDistance)) {
+                shootingTimer = shootingInterval;
+                animator.SetBool("isShooting", true);
+                GameObject currentBullet = Instantiate (bullet, spawn.position, spawn.rotation);
+                currentBullet.transform.forward = (player.transform.position - spawn.position).normalized;
+                shotSound.Play();
+            } else {
+                animator.SetBool("isShooting", false);
+            }
+            // chasing logic
+            chaseTimer -= Time.deltaTime;
+            if (chaseTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= 5f)) {
+                chaseTimer = chaseInterval;
+                agent.SetDestination(player.transform.position);
+            }
 
-        if (agent.velocity != Vector3.zero) {
-            transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position);
-            animator.SetBool("isChasing", true);
-        } else {
-            animator.SetBool("isChasing", false);
+            if (agent.velocity != Vector3.zero) {
+                transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position);
+                animator.SetBool("isChasing", true);
+            } else {
+                animator.SetBool("isChasing", false);
+            }
         }
     }
 
     public void gotShot() {
         health--;
         if (health <= 0) {
-
+            animator.SetTrigger("justDied");
+            justDied = true;
+            agent.isStopped = true;
         }
     }
 }
