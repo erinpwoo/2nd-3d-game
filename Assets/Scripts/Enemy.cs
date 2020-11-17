@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     public float shootingInterval = 4f;
+    private NavMeshAgent agent;
 
     private float shootingTimer;
     public int health = 5;
@@ -19,6 +21,11 @@ public class Enemy : MonoBehaviour
     public Transform spawn;
 
     public AudioSource shotSound;
+    public float chaseDistance = 12f;
+    private float chaseTimer;
+    public float chaseInterval = 2f;
+
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,22 +33,45 @@ public class Enemy : MonoBehaviour
         shootingTimer = Random.Range(0, shootingInterval);
         spawn = gameObject.GetComponent<Transform>().GetChild(0);
         shotSound = gameObject.GetComponent<AudioSource>();
+        agent = GetComponent<NavMeshAgent>();
+        agent.SetDestination(player.transform.position);
+        agent.speed = 2f;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // shooting logic
         shootingTimer -= Time.deltaTime;
         if (shootingTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= shootingDistance)) {
             shootingTimer = shootingInterval;
+            animator.SetBool("isShooting", true);
             GameObject currentBullet = Instantiate (bullet, spawn.position, spawn.rotation);
             currentBullet.transform.forward = (player.transform.position - spawn.position).normalized;
             shotSound.Play();
-            print("shooting");
+        } else {
+            animator.SetBool("isShooting", false);
+        }
+        // chasing logic
+        chaseTimer -= Time.deltaTime;
+        if (chaseTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= 5f)) {
+            chaseTimer = chaseInterval;
+            agent.SetDestination(player.transform.position);
+        }
+
+        if (agent.velocity != Vector3.zero) {
+            transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position);
+            animator.SetBool("isChasing", true);
+        } else {
+            animator.SetBool("isChasing", false);
         }
     }
 
     public void gotShot() {
         health--;
+        if (health <= 0) {
+
+        }
     }
 }
