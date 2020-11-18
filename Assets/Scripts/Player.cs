@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     {
         if (isGameOver || wonGame) {
             if (Input.anyKey) {
+                StartCoroutine(PauseBeforeRestart());
                 SceneManager.LoadScene("MainScene");
             }
         }
@@ -86,5 +87,9 @@ public class Player : MonoBehaviour
             i.gameObject.SetActive(false);
         }
         wonGame = true;
+    }
+
+    IEnumerator PauseBeforeRestart() {
+        yield return new WaitForSeconds(1);
     }
 }
