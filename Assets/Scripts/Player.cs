@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [Header("Gameplay")]
-    public int initialHealth = 5;
+    public int initialHealth = 100;
     public int health;
 
     private bool isHurt;
@@ -15,20 +15,27 @@ public class Player : MonoBehaviour
 
     public float hurtDuration = .5f;
     public bool isGameOver;
+    public bool wonGame;
 
     public Text gameOverText;
+    public Text youSurvivedText;
+
+    public GameObject safeZone;
     // Start is called before the first frame update
     void Start()
     {
         health = initialHealth;
         isGameOver = false;
+        wonGame = false;
         gameOverText.gameObject.SetActive(false);
+        youSurvivedText.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isGameOver) {
+        if (isGameOver || wonGame) {
             if (Input.anyKey) {
                 SceneManager.LoadScene("MainScene");
             }
@@ -56,12 +63,28 @@ public class Player : MonoBehaviour
     }
 
     public void GameOver() {
-        isGameOver = true;
         gameOverText.gameObject.SetActive(true);
         gameObject.GetComponent<GunInventory>().currentGun.SetActive(false);
         TextMesh[] t =  gameObject.transform.GetComponentsInChildren<TextMesh>();
         foreach (TextMesh i in t) {
             i.gameObject.SetActive(false);
         }
+        isGameOver = true;
+    }
+
+    public void OnTriggerEnter(Collider collider) {
+        if (collider.gameObject == safeZone) {
+            WinGame();
+        }
+    }
+
+    public void WinGame() {
+        youSurvivedText.gameObject.SetActive(true);
+        gameObject.GetComponent<GunInventory>().currentGun.SetActive(false);
+        TextMesh[] t =  gameObject.transform.GetComponentsInChildren<TextMesh>();
+        foreach (TextMesh i in t) {
+            i.gameObject.SetActive(false);
+        }
+        wonGame = true;
     }
 }

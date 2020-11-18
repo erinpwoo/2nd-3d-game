@@ -35,9 +35,9 @@ public class Enemy : MonoBehaviour
         spawn = gameObject.GetComponent<Transform>().GetChild(0);
         shotSound = gameObject.GetComponent<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
-        agent.SetDestination(player.transform.position);
         agent.speed = 2f;
         animator = GetComponent<Animator>();
+        chaseTimer = chaseInterval;
         justDied = false;
     }
 
@@ -48,6 +48,7 @@ public class Enemy : MonoBehaviour
             // shooting logic
             shootingTimer -= Time.deltaTime;
             if (shootingTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= shootingDistance)) {
+                transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position);
                 shootingTimer = shootingInterval;
                 animator.SetBool("isShooting", true);
                 GameObject currentBullet = Instantiate (bullet, spawn.position, spawn.rotation);
@@ -58,9 +59,11 @@ public class Enemy : MonoBehaviour
             }
             // chasing logic
             chaseTimer -= Time.deltaTime;
-            if (chaseTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= 5f)) {
+            if (chaseTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= chaseDistance)) {
                 chaseTimer = chaseInterval;
                 agent.SetDestination(player.transform.position);
+                print("ischasing");
+                
             }
 
             if (agent.velocity != Vector3.zero) {
@@ -70,7 +73,7 @@ public class Enemy : MonoBehaviour
                 animator.SetBool("isChasing", false);
             }
         }
-        if (player.GetComponent<Player>().isGameOver) {
+        if (player.GetComponent<Player>().isGameOver || player.GetComponent<Player>().wonGame) {
             gameObject.SetActive(false);
         }
     }
