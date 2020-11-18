@@ -62,8 +62,8 @@ public class Enemy : MonoBehaviour
             if (chaseTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= chaseDistance)) {
                 chaseTimer = chaseInterval;
                 agent.SetDestination(player.transform.position);
+                animator.SetBool("isChasing", true);
                 print("ischasing");
-                
             }
 
             if (agent.velocity != Vector3.zero) {

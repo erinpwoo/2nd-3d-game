@@ -824,6 +824,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8326592218162077896, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: chaseDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 499100499, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: Priority
+      value: 46
+      objectReference: {fileID: 0}
+    - target: {fileID: 499100499, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7673487251499248760, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_Name
       value: HPCharacter
@@ -842,7 +854,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7673487251499544664, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 219.00581
+      value: 247.6
       objectReference: {fileID: 0}
     - target: {fileID: 7673487251499544664, guid: c98043d57e0190845b790d7b92990bee, type: 3}
       propertyPath: m_LocalRotation.w
