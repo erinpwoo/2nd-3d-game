@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     public Transform spawn;
 
     public AudioSource shotSound;
-    public float chaseDistance = 12f;
+    public float chaseDistance = 50f;
     private float chaseTimer;
     public float chaseInterval = 2f;
 
@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
             shootingTimer -= Time.deltaTime;
             if (shootingTimer <= 0 && (Vector3.Distance(transform.position, player.transform.position) <= shootingDistance)) {
                 transform.rotation = Quaternion.LookRotation(player.transform.position - transform.position);
-                shootingTimer = shootingInterval;
+                shootingTimer = Random.Range(0, shootingInterval);
                 animator.SetBool("isShooting", true);
                 GameObject currentBullet = Instantiate (bullet, spawn.position, spawn.rotation);
                 currentBullet.transform.forward = (player.transform.position - spawn.position).normalized;
@@ -63,7 +63,6 @@ public class Enemy : MonoBehaviour
                 chaseTimer = chaseInterval;
                 agent.SetDestination(player.transform.position);
                 animator.SetBool("isChasing", true);
-                print("ischasing");
             }
 
             if (agent.velocity != Vector3.zero) {
